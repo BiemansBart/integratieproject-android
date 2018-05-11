@@ -5,11 +5,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -18,7 +20,7 @@ import java.net.URL;
  */
 
 public class RestClient {
-    private static final String URL = "localhost:58182/api/User";
+    private static final String LINK = "http://10.0.2.2:58182/api/User";
     private Context context;
     private String result;
     private char[] chars = new char[200];
@@ -31,34 +33,24 @@ public class RestClient {
 
     public String getResult() throws IOException {
         try {
-            ConnectivityManager connMgr =
-                    (ConnectivityManager) context.getSystemService(
-                            Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-            if (networkInfo != null && networkInfo.isConnected()) {
-                java.net.URL url = new URL(URL);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream resultStream = conn.getInputStream();
-                Reader resultReader = new InputStreamReader(resultStream);
-                do {
-                    charsRead = resultReader.read(chars,0,chars.length);
-                    if(charsRead > 0){
-                        builder.append(chars,0,charsRead);
-                    }
-
-                }while(charsRead > 0);
-                result = builder.toString();
-                return result;
-
+            URL url = new URL(LINK);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed HTTP Error Code" + conn.getResponseCode());
             }
-        } catch (IOException e) {
+            if(conn.getResponseCode() == 200){
+                Log.d("LOGKEY","Connectie geslaagd!");
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((result = br.readLine()) != null) {
+                Log.d("LOGKEY",result);
+            }
+            // NIET VERGETEN!
+            conn.disconnect();
+        }catch (IOException e){
             Log.d("LOGKEY",e.getMessage());
         }
         return null;
