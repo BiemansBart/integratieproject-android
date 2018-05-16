@@ -5,7 +5,7 @@
     android:background="@color/LogInBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="teamtwaalf.politiekebarometer.MainActivity">
+    tools:context="teamtwaalf.politiekebarometer.activity.MainActivity">
 
     <Button
         android:id="@+id/ButtonInlog"
