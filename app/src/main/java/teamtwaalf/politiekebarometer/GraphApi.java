@@ -12,6 +12,10 @@ import teamtwaalf.politiekebarometer.model.Graph;
  */
 
 public interface GraphApi {
+
+    String BASE_URL = "https://my-json-server.typicode.com/";
+    @GET("biemansbart/testdata/Graphs")
+    Call<List<Graph>> TestDataGrafieken();
     @GET("/api/GraphApi{user}")
     Call<List<Graph>> grafiekenPerUser(@Path("user") String user);
 }

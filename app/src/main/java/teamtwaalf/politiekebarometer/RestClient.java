@@ -6,17 +6,10 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,42 +19,47 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import teamtwaalf.politiekebarometer.activity.MainActivity;
 import teamtwaalf.politiekebarometer.model.Graph;
-import teamtwaalf.politiekebarometer.model.GraphList;
-import teamtwaalf.politiekebarometer.model.GraphType;
+
+import static java.util.Collections.addAll;
+
 
 public class RestClient {
     //  api/user parametiseren
     //Retrofit of OKhttp
     private Context context;
     private Random random = new Random();
+    public List<Graph> result = new ArrayList<>();
 
     public RestClient(Context c) {
         this.context = c;
     }
 
 
-    public String getResult() throws IOException {
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://10.134.216.25:8012/").addConverterFactory(GsonConverterFactory.create());
+    public List<Graph> getResult() throws IOException {
+
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
-        Call<List<Graph>> call = api.grafiekenPerUser("1"); // Geef hier de user id aan mee
+        Call<List<Graph>> call = api.TestDataGrafieken();
 
         call.enqueue(new Callback<List<Graph>>() {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
                 List<Graph> grafieken = response.body();
-                // kies hier wat je doet met deze lijst
-            }
+                     result.addAll(grafieken);
 
+
+            }
             @Override
             public void onFailure(Call<List<Graph>> call, Throwable t) {
+                Log.d("LOGKEY", "Heel hard gefaald");
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-    return  null;
+        return result;
     }
+
 
     public void InitialiseGraphList() {
         String title = "";
@@ -73,11 +71,7 @@ public class RestClient {
             title = builder.toString();
 
 
-            //Initialise labels
-            List<String> labels = new ArrayList<>();
-            for (int j = 0; j < 10; j++) {
-                labels.add(String.valueOf((j)));
-            }
+
 
             //Initialise subjects
             String firstSubject = "Bart De Wever";
@@ -130,5 +124,6 @@ public class RestClient {
         }
 
     }
+
 
 }

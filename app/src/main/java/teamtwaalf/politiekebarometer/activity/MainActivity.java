@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logInButton = findViewById(R.id.ButtonInlog);
+
         imgViewUsername = findViewById(R.id.imgViewUsername);
         imgViewUsername.setImageResource(R.drawable.user);
         imgViewUsername.setPadding(10,10,10,10);
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
 
         RestClient rc = new RestClient(this);
         rc.InitialiseGraphList();
+
         addEventHandlers();
     }
 
