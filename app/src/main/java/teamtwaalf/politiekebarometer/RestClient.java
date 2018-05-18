@@ -65,7 +65,7 @@ public class RestClient {
 
     public void InitialiseGraphList() {
         String title = "";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i <10; i++) {
             //Initialise title
             StringBuilder builder = new StringBuilder();
             builder.append("Grafiek ");
@@ -118,8 +118,10 @@ public class RestClient {
             //Set random graphtype
             if(random.nextInt(100)>50){
                 g.setType(GraphType.line);
-            }else{
-                g.setType(GraphType.bar);
+                System.out.println("LINE");
+            }else {
+                g.setType(GraphType.pie);
+                System.out.println("BAR");
             }
 
 
