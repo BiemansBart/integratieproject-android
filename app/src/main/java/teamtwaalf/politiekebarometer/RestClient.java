@@ -62,4 +62,72 @@ public class RestClient {
     }
 
 
+<<<<<<< HEAD
+=======
+    public void InitialiseGraphList() {
+        String title = "";
+        for (int i = 0; i <10; i++) {
+            //Initialise title
+            StringBuilder builder = new StringBuilder();
+            builder.append("Grafiek ");
+            builder.append(String.valueOf(i));
+            title = builder.toString();
+
+
+
+
+            //Initialise subjects
+            String firstSubject = "Bart De Wever";
+            String secondSubject = "Geert Bourgeois";
+            String thirdSubject = "Imade Annouri";
+            String fourthSubject = "Theo Francken";
+            String fifthSubject = "Bart Somers";
+
+            //Initialise data
+            List<String> dataFirstSubject = new ArrayList<>();
+            List<String> dataSecondSubject = new ArrayList<>();
+            List<String> dataThirdSubject = new ArrayList<>();
+            List<String> dataFourthSubject = new ArrayList<>();
+            List<String> dataFifthSubject = new ArrayList<>();
+            for (int j = 0; j < labels.size(); j++) {
+                dataFirstSubject.add(String.valueOf(random.nextInt(100)));
+                dataSecondSubject.add(String.valueOf(random.nextInt(100)));
+                dataThirdSubject.add(String.valueOf(random.nextInt(100)));
+                dataFourthSubject.add(String.valueOf(random.nextInt(100)));
+                dataFifthSubject.add(String.valueOf(random.nextInt(100)));
+            }
+
+            Graph g = new Graph(1,
+                    GraphType.line,
+                    labels, dataFirstSubject,
+                    dataSecondSubject,
+                    dataThirdSubject,
+                    dataFourthSubject,
+                    dataFifthSubject,
+                    title,
+                    firstSubject,
+                    secondSubject,
+                    thirdSubject,
+                    fourthSubject,
+                    fifthSubject
+            );
+
+            //Set random graphtype
+            if(random.nextInt(100)>50){
+                g.setType(GraphType.line);
+                System.out.println("LINE");
+            }else {
+                g.setType(GraphType.pie);
+                System.out.println("BAR");
+            }
+
+
+
+            GraphList.graphList.add(g);
+        }
+
+    }
+
+
+>>>>>>> 80c0ca6325ac981632cb23a6ec09e150012f88cb
 }

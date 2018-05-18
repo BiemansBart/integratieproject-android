@@ -7,10 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+<<<<<<< HEAD
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+=======
+import java.util.ArrayList;
+
+
+import java.io.IOException;
+
+>>>>>>> 80c0ca6325ac981632cb23a6ec09e150012f88cb
 import java.util.List;
 import java.util.Random;
 
