@@ -25,8 +25,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logInButton = findViewById(R.id.ButtonInlog);
-        RestClient rc = new RestClient(this);
-        rc.InitialiseGraphList();
         addEventHandlers();
     }
 
