@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import java.io.Console;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -20,13 +21,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import teamtwaalf.politiekebarometer.model.Graph;
 
+import static java.util.Collections.addAll;
+
 
 public class RestClient {
     //  api/user parametiseren
     //Retrofit of OKhttp
     private Context context;
     private Random random = new Random();
-    public static List<Graph> result = new ArrayList<>();
+    public List<Graph> result = new ArrayList<>();
 
     public RestClient(Context c) {
         this.context = c;
@@ -44,7 +47,9 @@ public class RestClient {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
                 List<Graph> grafieken = response.body();
-                result.addAll(grafieken);
+                     result.addAll(grafieken);
+
+
             }
             @Override
             public void onFailure(Call<List<Graph>> call, Throwable t) {

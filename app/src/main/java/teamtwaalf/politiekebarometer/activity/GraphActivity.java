@@ -28,10 +28,13 @@ private RestClient restClient;
         //butterknife aanroepen
         lvGraphs = findViewById(R.id.lvGraphs);
         restClient = new RestClient(this);
-            List<Graph> grafieken = RestClient.result;
-            for (Graph graph : grafieken) {
-                Log.d("LOGKEY",graph.getSubject() + "JAAAA");
-            }
+        try {
+            List<Graph> graphs = restClient.getResult();
+            Log.d("LOGKEY",graphs.size() + " Groote");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
         //rxjava-->
