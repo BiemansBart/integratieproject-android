@@ -1,8 +1,5 @@
 package teamtwaalf.politiekebarometer.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -10,11 +7,9 @@ import java.util.List;
  */
 
 public class Graph {
-    @SerializedName("GraphId")
     private int Id;
     private GraphType Type;
     private List<String> Labels ;
-    @SerializedName("GraphData")
     private List<String> GraphDataFirstSubject;
     private List<String> GraphDataSecondSubject;
     private List<String> GraphDataThirdSubject;
@@ -26,7 +21,6 @@ public class Graph {
     private String ThirdSubject;
     private String FourthSubject;
     private String FifthSubject;
-
 
     //Constructor
     public Graph(int id, GraphType type, List<String> labels, List<String> graphDataFirstSubject, List<String> graphDataSecondSubject, List<String> graphDataThirdSubject, List<String> graphDataFourthSubject, List<String> graphDataFifthSubject, String title, String subject, String secondSubject, String thirdSubject, String fourthSubject, String fifthSubject) {
@@ -44,12 +38,9 @@ public class Graph {
         ThirdSubject = thirdSubject;
         FourthSubject = fourthSubject;
         FifthSubject = fifthSubject;
-
     }
 
-
     //GETTERS & SETTERS
-
     public void setId(int id) {
         Id = id;
     }
@@ -151,24 +142,6 @@ public class Graph {
 
     @Override
     public String toString() {
-
-
-        return "Graph{" +
-                "Id=" + Id +
-                ", Type=" + Type +
-                ", Labels=" + Labels +
-                ", GraphDataFirstSubject=" + GraphDataFirstSubject +
-                ", GraphDataSecondSubject=" + GraphDataSecondSubject +
-                ", GraphDataThirdSubject=" + GraphDataThirdSubject +
-                ", GraphDataFourthSubject=" + GraphDataFourthSubject +
-                ", GraphDataFifthSubject=" + GraphDataFifthSubject +
-                ", Title='" + Title + '\'' +
-                ", Subject='" + Subject + '\'' +
-                ", SecondSubject='" + SecondSubject + '\'' +
-                ", ThirdSubject='" + ThirdSubject + '\'' +
-                ", FourthSubject='" + FourthSubject + '\'' +
-                ", FifthSubject='" + FifthSubject + '\'' +
-                '}';
-
+        return String.format("grafiek: {0} is van type: {1}", getTitle(), getType().toString());
     }
 }
