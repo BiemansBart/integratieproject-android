@@ -1,6 +1,7 @@
 package teamtwaalf.politiekebarometer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -14,15 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import teamtwaalf.politiekebarometer.activity.GraphActivity;
 import teamtwaalf.politiekebarometer.model.Graph;
-
-import static java.util.Collections.addAll;
-
 
 public class RestClient {
     //  api/user parametiseren
@@ -46,22 +46,20 @@ public class RestClient {
         call.enqueue(new Callback<List<Graph>>() {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
-                List<Graph> grafieken = response.body();
-                     result.addAll(grafieken);
-
-
+                if (response.isSuccessful()) {
+                    ((GraphActivity) context).printData(response.body());
+                } else {
+                    Toast.makeText(context, "Er is een fout opgetreden met het inladen van de grafieken, gelieve het opnieuw te proberen.s", Toast.LENGTH_SHORT).show();
+                }
             }
+
             @Override
             public void onFailure(Call<List<Graph>> call, Throwable t) {
-                Log.d("LOGKEY", "Heel hard gefaald");
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Er is iets fout gegaan met het inlezen van de data, gelieve het opnieuw te proberen.", Toast.LENGTH_SHORT).show();
             }
         });
         return result;
     }
-
-
-
 
 
 }
