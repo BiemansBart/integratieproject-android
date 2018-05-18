@@ -151,6 +151,8 @@ public class Graph {
 
     @Override
     public String toString() {
+
+
         return "Graph{" +
                 "Id=" + Id +
                 ", Type=" + Type +
@@ -167,5 +169,6 @@ public class Graph {
                 ", FourthSubject='" + FourthSubject + '\'' +
                 ", FifthSubject='" + FifthSubject + '\'' +
                 '}';
+
     }
 }
