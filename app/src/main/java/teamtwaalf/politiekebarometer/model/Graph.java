@@ -12,7 +12,7 @@ import java.util.List;
 public class Graph {
     @SerializedName("GraphId")
     private int Id;
-    private GraphType Type;
+    private int Type;
     private List<String> Labels ;
     @SerializedName("GraphData")
     private List<String> GraphDataFirstSubject;
@@ -29,7 +29,7 @@ public class Graph {
 
 
     //Constructor
-    public Graph(int id, GraphType type, List<String> labels, List<String> graphDataFirstSubject, List<String> graphDataSecondSubject, List<String> graphDataThirdSubject, List<String> graphDataFourthSubject, List<String> graphDataFifthSubject, String title, String subject, String secondSubject, String thirdSubject, String fourthSubject, String fifthSubject) {
+    public Graph(int id, int type, List<String> labels, List<String> graphDataFirstSubject, List<String> graphDataSecondSubject, List<String> graphDataThirdSubject, List<String> graphDataFourthSubject, List<String> graphDataFifthSubject, String title, String subject, String secondSubject, String thirdSubject, String fourthSubject, String fifthSubject) {
         Id = id;
         Type = type;
         Labels = labels;
@@ -53,7 +53,7 @@ public class Graph {
     public void setId(int id) {
         Id = id;
     }
-    public void setType(GraphType type) {
+    public void setType(int type) {
         Type = type;
     }
     public void setTitle(String title) {
@@ -97,7 +97,7 @@ public class Graph {
         return Id;
     }
 
-    public GraphType getType() {
+    public int getType() {
         return Type;
     }
 

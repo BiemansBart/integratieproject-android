@@ -39,10 +39,6 @@ public class MainActivity extends Activity {
         imgViewPassword = findViewById(R.id.imgViewPassword);
         imgViewPassword.setImageResource(R.drawable.password);
         imgViewPassword.setPadding(10,10,10,10);
-
-        RestClient rc = new RestClient(this);
-        rc.InitialiseGraphList();
-
         addEventHandlers();
     }
 
@@ -53,18 +49,6 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, GraphActivity.class);
                 startActivity(intent);
 
-              /*  RestClient client = new RestClient(MainActivity.this);
-                io.reactivex.Observable<String> observable = io.reactivex.Observable.create(subscriber -> {
-                    try {
-                        String result = client.getResult();
-                        Log.d("LOGKEY",result);
-                    } catch (IOException e) {
-                        subscriber.onError(e);
-                    }
-                });
-
-                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> testTextView.setText(result),
-                exception -> Toast.makeText(MainActivity.this,exception.getMessage(),Toast.LENGTH_LONG).show());*/
             }
         });
 

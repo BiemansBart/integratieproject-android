@@ -7,18 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
-=======
-import java.util.ArrayList;
-
-
-import java.io.IOException;
-
->>>>>>> 80c0ca6325ac981632cb23a6ec09e150012f88cb
 import java.util.List;
 import java.util.Random;
 
@@ -30,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import teamtwaalf.politiekebarometer.GraphApi;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
+import teamtwaalf.politiekebarometer.adapter.GraphAdapter;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 public class GraphActivity extends Activity {
@@ -54,9 +48,9 @@ public class GraphActivity extends Activity {
 
     }
 
-    public void printData(List<Graph> graphs) {
-        Log.d("LOGKEY","un de printData");
-        Log.d("LOGKEY",graphs.get(1).getSubject());
+    public void getGraphs(List<Graph> graphs) {
+        GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(graphs));
+        lvGraphs.setAdapter(adapter);
     }
 
 
