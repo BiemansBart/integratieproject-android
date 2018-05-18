@@ -140,4 +140,8 @@ public class Graph {
         return FifthSubject;
     }
 
+    @Override
+    public String toString() {
+        return String.format("grafiek: {0} is van type: {1}", getTitle(), getType().toString());
+    }
 }

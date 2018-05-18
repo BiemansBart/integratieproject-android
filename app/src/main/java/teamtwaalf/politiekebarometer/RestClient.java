@@ -99,6 +99,7 @@ public class RestClient {
                 dataFourthSubject.add(String.valueOf(random.nextInt(100)));
                 dataFifthSubject.add(String.valueOf(random.nextInt(100)));
             }
+
             Graph g = new Graph(1,
                     GraphType.line,
                     labels, dataFirstSubject,
@@ -113,6 +114,16 @@ public class RestClient {
                     fourthSubject,
                     fifthSubject
             );
+
+            //Set random graphtype
+            if(random.nextInt(100)>50){
+                g.setType(GraphType.line);
+            }else{
+                g.setType(GraphType.bar);
+            }
+
+
+
             GraphList.graphList.add(g);
         }
 
