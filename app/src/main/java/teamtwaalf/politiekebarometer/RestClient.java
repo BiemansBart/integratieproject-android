@@ -1,6 +1,7 @@
 package teamtwaalf.politiekebarometer;
 
 import android.content.Context;
+import android.os.Debug;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,21 +43,24 @@ public class RestClient {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
                 if (response.isSuccessful()) {
-                    Log.d("LOGKEY",response.body().get(0).getType() + ": TYPE");
+                    System.out.println("RESPONSE SUCCESS: " + response.body().size());
                     ((GraphActivity) context).getGraphs(response.body());
                 } else {
+                    System.out.println("RESPONSE FAILED");
                     Toast.makeText(context, "Er is een fout opgetreden met het inladen van de grafieken, gelieve het opnieuw te proberen.s", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Graph>> call, Throwable t) {
+                System.out.println("ON FAILURE");
                 Toast.makeText(context, "Er is iets fout gegaan met het inlezen van de data, gelieve het opnieuw te proberen.", Toast.LENGTH_SHORT).show();
             }
         });
+        System.out.println("RESULT IN RESTCLIENT: " + result.size());
+
         return result;
     }
-
 
 
 }

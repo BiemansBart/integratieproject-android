@@ -31,26 +31,30 @@ public class GraphActivity extends Activity {
     //annotatie boven views zetten --> rebuilden
     private ListView lvGraphs;
     private RestClient restClient;
-    private List<Graph> result;
+    private List<Graph> result = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
         //butterknife aanroepen
-        lvGraphs = findViewById(R.id.lvGraphs);
-        restClient = new RestClient(this);
+        Log.d("LOGKEY", "IETS LOGGEN PLS");
+         restClient = new RestClient(this);
         try {
-            restClient.getResult();
+            System.out.println("IN TRY");
+            result.addAll(restClient.getResult());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        lvGraphs = findViewById(R.id.lvGraphs);
+        System.out.println("");
+        GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(result));
+        lvGraphs.setAdapter(adapter);
     }
 
     public void getGraphs(List<Graph> graphs) {
-        GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(graphs));
-        lvGraphs.setAdapter(adapter);
+        System.out.println("GRAPHLENGTH: " + graphs.size());
     }
 
 

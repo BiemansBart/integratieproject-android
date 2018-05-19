@@ -44,22 +44,26 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(graph.getType() == 0) {
+            /*if(graph.getType() == 0) {
                 convertView = inflater.inflate(R.layout.graph_adapter_linegraph, parent, false);
                 drawLineGraph(convertView, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NULL");
+                return convertView;
             }
             if(graph.getType() == 2){
                 convertView = inflater.inflate(R.layout.graph_adapter_barchart, parent, false);
                 drawBarChart(convertView, graph);
                 System.out.println("DRAW BAR : CONVERTVIEW NULL");
+                return convertView;
             }
             if(graph.getType() == 3){
                 convertView = inflater.inflate(R.layout.graph_adapter_piechart, parent, false);
                 drawPieChart(convertView, graph);
                 System.out.println("DRAW PIE : CONVERTVIEW NULL");
-            }
-            drawBarChart(convertView, graph);
+                return convertView;
+            }*/
+            System.out.println("IN DRAW");
+            drawPieChart(convertView, graph);
 
        } else {
             //Bevat nog een fout
@@ -67,19 +71,20 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 View pieChart =  convertView.findViewById(R.id.pieChart);
                 drawPieChart(pieChart, graph);
                 System.out.println("DRAW PIE : CONVERTVIEW NOT NULL");
+                return convertView;
             }
             if(graph.getType() == 2) {
                 View lineChart = convertView.findViewById(R.id.lineChart);
                 drawLineGraph(lineChart, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NOT NULL");
-
+                return convertView;
             }
             if(graph.getType() == 3){
                 View barChart = convertView.findViewById(R.id.barChart);
                 drawBarChart(barChart, graph);
                 System.out.println("DRAW BAR : CONVERTVIEW NOT NULL");
+                return convertView;
             }
-            drawBarChart(convertView, graph);
         }
         return convertView;
     }
