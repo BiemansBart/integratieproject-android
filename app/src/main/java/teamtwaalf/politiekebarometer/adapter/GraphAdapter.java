@@ -57,7 +57,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(graph.getType() == 2) {
+            if(graph.getType() == 0) {
                 convertView = inflater.inflate(R.layout.graph_adapter_linegraph, parent, false);
                 drawLineGraph(convertView, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NULL");
@@ -69,7 +69,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 System.out.println("DRAW PIE : CONVERTVIEW NULL");
                 return convertView;
             }
-            if(graph.getType() == 0){
+            if(graph.getType() == 2){
                 convertView = inflater.inflate(R.layout.graph_adapter_barchart, parent, false);
                 drawBarChart(convertView, graph);
                 System.out.println("DRAW BAR : CONVERTVIEW NULL");
@@ -79,16 +79,16 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
        } else {
             //Bevat nog een fout
-            if(graph.getType() == 1){
-                View pieChart = convertView.findViewById(R.id.pieChart);
-                drawPieChart(pieChart, graph);
-                System.out.println("DRAW PIE : CONVERTVIEW NOT NULL");
-                return convertView;
-            }
             if(graph.getType() == 0) {
                 View lineChart = convertView.findViewById(R.id.lineChart);
                 drawLineGraph(lineChart, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NOT NULL");
+                return convertView;
+            }
+            if(graph.getType() == 1){
+                View pieChart = convertView.findViewById(R.id.pieChart);
+                drawPieChart(pieChart, graph);
+                System.out.println("DRAW PIE : CONVERTVIEW NOT NULL");
                 return convertView;
             }
             if(graph.getType() == 2){
@@ -186,7 +186,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 lineChartData.addDataSet(dataSet);
         }
 
-
+        LegendEntry[] legendEntries = lineChart.getLegend().getEntries();
         lineChart.setData(lineChartData);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         lineChart.getAxisLeft().setAxisMinimum(0);
