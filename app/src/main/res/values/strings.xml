@@ -3,4 +3,5 @@
     <string name="UserName">Email</string>
     <string name="Paswoord">Wachtwoord</string>
     <string name="LogIn">Log in</string>
+    <string name="TitlePlaceholder">grafiektitel</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,7 +46,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
     public GraphAdapter(Context context, ArrayList<Graph> graphs) {
         super(context, -1, graphs);
     }
-
+    private final int COLORS[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK};
     //0 = Line, 1 = Pie, 2 = Bar
 
     @Override
@@ -55,7 +56,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         System.out.println("======= DATA GRAFIEK " + graph.getId() + "=======");
         System.out.println(graph.toString());
 
-        if (convertView == null) {
+       // if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if(graph.getType() == 0) {
                 convertView = inflater.inflate(R.layout.graph_adapter_linegraph, parent, false);
@@ -77,7 +78,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
             }
 
 
-       } else {
+      /* } else {
             //Bevat nog een fout
             if(graph.getType() == 0) {
                 View lineChart = convertView.findViewById(R.id.lineChart);
@@ -97,7 +98,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 System.out.println("DRAW BAR : CONVERTVIEW NOT NULL");
                 return convertView;
             }
-        }
+        }*/
         return convertView;
     }
 
@@ -153,51 +154,55 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
     private void drawLineGraph(View convertView, Graph graph){
         LineChart lineChart = convertView.findViewById(R.id.lineChart);
+        TextView title = convertView.findViewById(R.id.titleLineChart);
+        title.setText(graph.getTitle());
         LineData lineChartData = new LineData();
         LineDataSet dataSet = null;
         for (int i = 0; i < 5; i++) {
             switch (i) {
                 case 0:
                     dataSet = new LineDataSet(createEntries(graph, 0), graph.getSubject());
-                    dataSet.setColor(Color.RED);
-                    dataSet.setCircleColor(Color.RED);
+                    dataSet.setColor(COLORS[i]);
+                    dataSet.setCircleColor(COLORS[i]);
                     break;
                 case 1:
                     dataSet = new LineDataSet(createEntries(graph, 1), graph.getSecondSubject());
-                    dataSet.setColor(Color.GREEN);
-                    dataSet.setCircleColor(Color.GREEN);
+                    dataSet.setColor(COLORS[i]);
+                    dataSet.setCircleColor(COLORS[i]);
                     break;
                 case 2:
                     dataSet = new LineDataSet(createEntries(graph, 2), graph.getThirdSubject());
-                    dataSet.setColor(Color.BLUE);
-                    dataSet.setCircleColor(Color.BLUE);
+                    dataSet.setColor(COLORS[i]);
+                    dataSet.setCircleColor(COLORS[i]);
                     break;
                 case 3:
                     dataSet = new LineDataSet(createEntries(graph, 3), graph.getFourthSubject());
-                    dataSet.setColor(Color.YELLOW);
-                    dataSet.setCircleColor(Color.YELLOW);
+                    dataSet.setColor(COLORS[i]);
+                    dataSet.setCircleColor(COLORS[i]);
                     break;
                 case 4:
                     dataSet = new LineDataSet(createEntries(graph, 4), graph.getFifthSubject());
-                    dataSet.setColor(Color.BLACK);
-                    dataSet.setCircleColor(Color.BLACK);
+                    dataSet.setColor(COLORS[i]);
+                    dataSet.setCircleColor(COLORS[i]);
                     break;
             }
                 lineChartData.addDataSet(dataSet);
         }
 
-        LegendEntry[] legendEntries = lineChart.getLegend().getEntries();
         lineChart.setData(lineChartData);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         lineChart.getAxisLeft().setAxisMinimum(0);
         lineChart.getXAxis().setAxisMinimum(0);
         lineChart.getAxisRight().setEnabled(false);
+        lineChart.getDescription().setEnabled(false);
         lineChart.setMinimumHeight(400);
         lineChart.invalidate();
     }
 
     private void drawBarChart(View convertView, Graph graph){
         BarChart barChart = convertView.findViewById(R.id.barChart);
+        TextView title = convertView.findViewById(R.id.titleBarChart);
+        title.setText(graph.getTitle());
         List<BarEntry> entriesGroup1 = new ArrayList<>();
         List<BarEntry> entriesGroup2 = new ArrayList<>();
         List<BarEntry> entriesGroup3 = new ArrayList<>();
@@ -233,11 +238,11 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         BarDataSet set3 = new BarDataSet(entriesGroup3, graph.getThirdSubject());
         BarDataSet set4 = new BarDataSet(entriesGroup4, graph.getFourthSubject());
         BarDataSet set5 = new BarDataSet(entriesGroup5, graph.getFifthSubject());
-        set1.setColor(Color.RED);
-        set2.setColor(Color.GREEN);
-        set3.setColor(Color.BLUE);
-        set4.setColor(Color.YELLOW);
-        set5.setColor(Color.BLACK);
+        set1.setColor(COLORS[0]);
+        set2.setColor(COLORS[1]);
+        set3.setColor(COLORS[2]);
+        set4.setColor(COLORS[3]);
+        set5.setColor(COLORS[4]);
 
         BarData data = new BarData();
         data.addDataSet(set1);
@@ -266,8 +271,8 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         xAxis.setCenterAxisLabels(true);
         xAxis.setGranularityEnabled(true);
         xAxis.setAxisMinimum(0);
+        barChart.getDescription().setEnabled(false);
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        barChart.setMinimumHeight(400);
         barChart.setData(data);
         barChart.groupBars(0, 0.4f, 0.02f);
         barChart.invalidate();
@@ -280,15 +285,26 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
     private void drawPieChart(View convertView, Graph graph) {
         List<PieEntry> entries = new ArrayList<>();
         PieChart pieChart = convertView.findViewById(R.id.pieChart);
+        TextView title = convertView.findViewById(R.id.titlePie);
+        title.setText(graph.getTitle());
+        List<Integer> values = new ArrayList<>();
+        for (String s:graph.getGraphDataFirstSubject()) {
+            values.add(Integer.parseInt(s));
+        }
 
-        entries.add(new PieEntry(18.5f, "Green"));
-        entries.add(new PieEntry(26.7f, "Yellow"));
-        entries.add(new PieEntry(24.0f, "Red"));
-        entries.add(new PieEntry(30.8f, "Blue"));
+        for (int i = 0; i < graph.getLabels().size(); i++) {
+            entries.add(new PieEntry(values.get(i), graph.getLabels().get(i)));
+        }
+        //entries.add(new PieEntry(18.5f, "Green"));
+        //entries.add(new PieEntry(26.7f, "Yellow"));
+        //entries.add(new PieEntry(24.0f, "Red"));
+        //entries.add(new PieEntry(30.8f, "Blue"));
 
         PieDataSet set = new PieDataSet(entries, "Election Results");
+        set.setColors(COLORS);
         PieData data = new PieData(set);
         pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
         pieChart.setMinimumHeight(400);
         pieChart.invalidate();
     }
