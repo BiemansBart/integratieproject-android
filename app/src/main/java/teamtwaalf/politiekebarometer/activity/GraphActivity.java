@@ -1,13 +1,9 @@
 package teamtwaalf.politiekebarometer.activity;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -15,12 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import teamtwaalf.politiekebarometer.GraphApi;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
 import teamtwaalf.politiekebarometer.adapter.GraphAdapter;
@@ -42,7 +32,7 @@ public class GraphActivity extends Activity {
          restClient = new RestClient(this);
         try {
             System.out.println("IN TRY");
-            restClient.getResult();
+            restClient.GetGrafieken();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +48,9 @@ public class GraphActivity extends Activity {
         lvGraphs = findViewById(R.id.lvGraphs);
         GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(result));
         lvGraphs.setAdapter(adapter);
+    }
+    public void getUserGraphs(){
+
     }
 
 

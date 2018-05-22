@@ -18,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import teamtwaalf.politiekebarometer.activity.GraphActivity;
+import teamtwaalf.politiekebarometer.activity.MainActivity;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 public class RestClient {
@@ -32,9 +33,9 @@ public class RestClient {
     }
 
 
-    public List<Graph> getResult() throws IOException {
+    public List<Graph> GetGrafieken() throws IOException {
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create()).addConverterFactory(new EnumRetrofitConverterFactory());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
         Call<List<Graph>> call = api.TestDataGrafieken();
@@ -60,6 +61,27 @@ public class RestClient {
         System.out.println("RESULT IN RESTCLIENT: " + result.size());
 
         return result;
+    }
+
+    public void getUserId(String email,String password){
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        GraphApi api = retrofit.create(GraphApi.class);
+        Call<String> call = api.getUserId(email,password);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    System.out.println(response.body());
+                    ((MainActivity) context).LogGebruikerIn(true,response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("error occured, try again later");
+            }
+        });
     }
 
 
