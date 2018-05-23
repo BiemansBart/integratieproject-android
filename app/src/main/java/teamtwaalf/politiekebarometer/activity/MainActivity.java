@@ -53,9 +53,9 @@ public class MainActivity extends Activity {
     public void LogGebruikerIn(boolean login,String id){
         if(login){
             System.out.println("in de logGebruikerInMethode + " + id);
-           // Intent intent = new Intent(MainActivity.this, GraphActivity.class);
-            //intent.putExtra("userId",id);
-            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, GraphActivity.class);
+            intent.putExtra("userId",id);
+            startActivity(intent);
         }else{
             Toast.makeText(this, "De combinatie van uw wachtwoord en email kloppen niet", Toast.LENGTH_SHORT).show();
         }

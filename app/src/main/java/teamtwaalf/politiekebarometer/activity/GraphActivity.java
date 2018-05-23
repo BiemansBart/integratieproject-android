@@ -49,6 +49,7 @@ public class GraphActivity extends Activity {
         GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(result));
         lvGraphs.setAdapter(adapter);
     }
+
     public void getUserGraphs(){
 
     }
