@@ -33,21 +33,21 @@ public class RestClient {
     }
 
 
-    public List<Graph> GetGrafieken() throws IOException {
+    public List<Graph> GetGrafieken(String userId) throws IOException {
 
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
-        Call<List<Graph>> call = api.TestDataGrafieken();
+        Call<List<Graph>> call = api.grafiekenPerUser(userId);
 
         call.enqueue(new Callback<List<Graph>>() {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("RESPONSE SUCCESS: " + response.body().size());
+                    System.out.println("RESPONSE SUCCESS BIJ DE GETGRAFIEKEN: " + response.toString());
                     ((GraphActivity) context).getGraphs(response.body());
                 } else {
-                    System.out.println("RESPONSE FAILED");
+                    System.out.println("RESPONSE FAILED BIJ DE GETGRAFIEKEN");
                     Toast.makeText(context, "Er is een fout opgetreden met het inladen van de grafieken, gelieve het opnieuw te proberen.s", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -55,7 +55,7 @@ public class RestClient {
             @Override
             public void onFailure(Call<List<Graph>> call, Throwable t) {
                 System.out.println("ON FAILURE");
-                Toast.makeText(context, "Er is iets fout gegaan met het inlezen van de data, gelieve het opnieuw te proberen.", Toast.LENGTH_SHORT).show();
+                System.out.println(t.getMessage());
             }
         });
         System.out.println("RESULT IN RESTCLIENT: " + result.size());
@@ -73,13 +73,15 @@ public class RestClient {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()){
                     System.out.println(response.body());
+                    System.out.println("LOGKEY" + " in deOnResponse");
                     ((MainActivity) context).LogGebruikerIn(true,response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("error occured, try again later");
+
+                System.out.println("error occured, try again later" + t.getMessage());
             }
         });
     }

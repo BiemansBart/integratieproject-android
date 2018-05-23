@@ -18,8 +18,8 @@ public interface GraphApi {
     String BASE_URL = "http://10.134.216.25:8012/";
     @GET("biemansbart/testdata/Graphs")
     Call<List<Graph>> TestDataGrafieken();
-    @GET("api/GraphApi{user}")
-    Call<List<Graph>> grafiekenPerUser(@Path("user") String user);
+    @GET("/api/GraphApi/getGraph")
+    Call<List<Graph>> grafiekenPerUser(@Query("id") String id);
     @GET("/api/UserApi/Login")
     Call<String> getUserId(@Query("email") String email, @Query("password") String password);
 }

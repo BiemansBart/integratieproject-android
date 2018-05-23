@@ -1,6 +1,7 @@
 package teamtwaalf.politiekebarometer.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
@@ -32,7 +33,8 @@ public class GraphActivity extends Activity {
          restClient = new RestClient(this);
         try {
             System.out.println("IN TRY");
-            restClient.GetGrafieken();
+            Intent intent = getIntent();
+            restClient.GetGrafieken(intent.getStringExtra("userId"));
         } catch (IOException e) {
             e.printStackTrace();
         }

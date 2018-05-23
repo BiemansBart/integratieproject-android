@@ -48,6 +48,7 @@ public class MainActivity extends Activity {
     @OnClick(R.id.ButtonInlog)
     void StuurGegegevensDoor() {
         RestClient client = new RestClient(this);
+        System.out.println(editTextUserName.getText().toString() + editTextPassword.getText().toString());
         client.getUserId(editTextUserName.getText().toString(),editTextPassword.getText().toString());
     }
     public void LogGebruikerIn(boolean login,String id){
