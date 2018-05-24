@@ -1,13 +1,11 @@
 package teamtwaalf.politiekebarometer;
 
 import android.content.Context;
-import android.os.Debug;
-import android.util.Log;
 import android.widget.Toast;
-
 
 import java.io.IOException;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,13 +36,19 @@ public class RestClient {
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
-        Call<List<Graph>> call = api.grafiekenPerUser(userId);
+        // halt de strings uit de url omdat die anders niet werkt.
+        String encodedData = userId.replace("\"","");
+        Call<List<Graph>> call = api.grafiekenPerUser(encodedData);
 
         call.enqueue(new Callback<List<Graph>>() {
             @Override
             public void onResponse(Call<List<Graph>> call, Response<List<Graph>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("RESPONSE SUCCESS BIJ DE GETGRAFIEKEN: " + response.toString());
+                    System.out.println("ONRESPONSE : " + call.toString() + response.raw());
+                    List<Graph> grafieken = response.body();
+                    for (Graph graph : grafieken) {
+                        System.out.println(graph.getTitle() + "TITLE");
+                    }
                     ((GraphActivity) context).getGraphs(response.body());
                 } else {
                     System.out.println("RESPONSE FAILED BIJ DE GETGRAFIEKEN");
@@ -74,7 +78,8 @@ public class RestClient {
                 if(response.isSuccessful()){
                     System.out.println(response.body());
                     System.out.println("LOGKEY" + " in deOnResponse");
-                    ((MainActivity) context).LogGebruikerIn(true,response.body());
+                    String id = response.body().toString();
+                    ((MainActivity) context).LogGebruikerIn(true,id);
                 }
             }
 

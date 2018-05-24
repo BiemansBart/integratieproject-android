@@ -22,6 +22,7 @@ public class Graph {
     private List<String> GraphDataFifthSubject;
     private String Title;
     private String Subject;
+    private String Choice;
     private String SecondSubject;
     private String ThirdSubject;
     private String FourthSubject;
@@ -29,7 +30,8 @@ public class Graph {
 
 
     //Constructor
-    public Graph(int id, int type, List<String> labels, List<String> graphDataFirstSubject, List<String> graphDataSecondSubject, List<String> graphDataThirdSubject, List<String> graphDataFourthSubject, List<String> graphDataFifthSubject, String title, String subject, String secondSubject, String thirdSubject, String fourthSubject, String fifthSubject) {
+
+    public Graph(int id, int type, List<String> labels, List<String> graphDataFirstSubject, List<String> graphDataSecondSubject, List<String> graphDataThirdSubject, List<String> graphDataFourthSubject, List<String> graphDataFifthSubject, String title, String subject, String choice, String secondSubject, String thirdSubject, String fourthSubject, String fifthSubject) {
         Id = id;
         Type = type;
         Labels = labels;
@@ -40,15 +42,23 @@ public class Graph {
         GraphDataFifthSubject = graphDataFifthSubject;
         Title = title;
         Subject = subject;
+        Choice = choice;
         SecondSubject = secondSubject;
         ThirdSubject = thirdSubject;
         FourthSubject = fourthSubject;
         FifthSubject = fifthSubject;
-
     }
 
 
     //GETTERS & SETTERS
+
+    public String getChoice() {
+        return Choice;
+    }
+
+    public void setChoice(String choice) {
+        Choice = choice;
+    }
 
     public void setId(int id) {
         Id = id;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import teamtwaalf.politiekebarometer.model.Graph;
 
@@ -19,7 +18,7 @@ public interface GraphApi {
     @GET("biemansbart/testdata/Graphs")
     Call<List<Graph>> TestDataGrafieken();
     @GET("/api/GraphApi/getGraph")
-    Call<List<Graph>> grafiekenPerUser(@Query("id") String id);
+    Call<List<Graph>> grafiekenPerUser(@Query(value = "id", encoded = true) String id);
     @GET("/api/UserApi/Login")
     Call<String> getUserId(@Query("email") String email, @Query("password") String password);
 }
