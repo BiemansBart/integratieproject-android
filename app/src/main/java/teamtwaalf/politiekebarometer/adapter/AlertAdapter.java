@@ -27,10 +27,10 @@ public class AlertAdapter extends ArrayAdapter<AlertMessage> {
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.alert_adapter_alertmessage,parent,false);
-
+            TextView messageText = convertView.findViewById(R.id.textViewAlertMessage);
+            messageText.setText(message.getMessage());
         }
-        TextView messageText = convertView.findViewById(R.id.textViewAlertMessage);
-        messageText.setText(message.getMessage());
         return convertView;
+
     }
 }
