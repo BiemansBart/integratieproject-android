@@ -209,54 +209,71 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         BarChart barChart = convertView.findViewById(R.id.barChart);
         TextView title = convertView.findViewById(R.id.titleBarChart);
         title.setText(graph.getTitle());
-        List<BarEntry> entriesGroup1 = new ArrayList<>();
-        List<BarEntry> entriesGroup2 = new ArrayList<>();
-        List<BarEntry> entriesGroup3 = new ArrayList<>();
-        List<BarEntry> entriesGroup4 = new ArrayList<>();
-        List<BarEntry> entriesGroup5 = new ArrayList<>();
+        BarData barData = new BarData();
+        BarDataSet datasetSubject1 = null;
+        BarDataSet datasetSubject2 = null;
+        BarDataSet datasetSubject3 = null;
+        BarDataSet datasetSubject4 = null;
+        BarDataSet datasetSubject5 = null;
 
-        for(int i = 0; i < graph.getLabels().size(); i++) {
-            entriesGroup1.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFirstSubject().get(i))));
+        for (int i = 0; i < 5; i++) {
+            List<BarEntry> entries = new ArrayList<>();
+            switch (i){
+                case 0:
+                    if(!graph.getGraphDataFirstSubject().isEmpty()){
+                    for (int j = 0; j < graph.getGraphDataFirstSubject().size(); j++) {
+                        entries.add(new BarEntry(j, Integer.parseInt(graph.getGraphDataFirstSubject().get(j))));
+                    }
+                        datasetSubject1 = new BarDataSet(entries, graph.getSubject());
+                        datasetSubject1.setColor(COLORS[i]);
+                    }
+                    barData.addDataSet(datasetSubject1);
+                    break;
+                case 1:
+                    if(!graph.getGraphDataSecondSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataSecondSubject().size(); j++) {
+                            entries.add(new BarEntry(j, Integer.parseInt(graph.getGraphDataSecondSubject().get(j))));
+                        }
+                        datasetSubject2 = new BarDataSet(entries, graph.getSecondSubject());
+                        datasetSubject2.setColor(COLORS[i]);
+                    }
+                    barData.addDataSet(datasetSubject2);
+                    break;
+                case 2:
+                    if(!graph.getGraphDataThirdSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataThirdSubject().size(); j++) {
+                            entries.add(new BarEntry(j, Integer.parseInt(graph.getGraphDataThirdSubject().get(j))));
+                        }
+                        datasetSubject3 = new BarDataSet(entries, graph.getThirdSubject());
+                        datasetSubject3.setColor(COLORS[i]);
+                    }
+                    barData.addDataSet(datasetSubject3);
+                    break;
+                case 3:
+                    if(!graph.getGraphDataFourthSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataFourthSubject().size(); j++) {
+                            entries.add(new BarEntry(j, Integer.parseInt(graph.getGraphDataFourthSubject().get(j))));
+                        }
+                        datasetSubject4 = new BarDataSet(entries, graph.getFourthSubject());
+                        datasetSubject4.setColor(COLORS[i]);
+                    }
+                    barData.addDataSet(datasetSubject4);
+                    break;
+                case 4:
+                    if(!graph.getGraphDataFifthSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataFifthSubject().size(); j++) {
+                            entries.add(new BarEntry(j, Integer.parseInt(graph.getGraphDataFifthSubject().get(j))));
+                        }
+                        datasetSubject5 = new BarDataSet(entries, graph.getFifthSubject());
+                        datasetSubject5.setColor(COLORS[i]);
+                    }
+                    barData.addDataSet(datasetSubject5);
+                    break;
+            }
 
-            if(!graph.getGraphDataSecondSubject().isEmpty()){
-                entriesGroup2.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataSecondSubject().get(i))));
-            }else{
-                entriesGroup2.add(new BarEntry(i,null));
-            }
-            if(!graph.getGraphDataThirdSubject().isEmpty()){
-                entriesGroup3.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataThirdSubject().get(i))));
-            }else{
-                entriesGroup3.add(new BarEntry(i,null));
-            }
-            if(!graph.getGraphDataFourthSubject().isEmpty()){
-                entriesGroup4.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFourthSubject().get(i))));
-            }else{
-                entriesGroup4.add(new BarEntry(i,null));
-            }
-            if(!graph.getGraphDataFifthSubject().isEmpty()){
-                entriesGroup5.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFifthSubject().get(i))));
-            }else{
-                entriesGroup5.add(new BarEntry(i,null));
-            }
         }
 
-        BarDataSet set1 = new BarDataSet(entriesGroup1, graph.getSubject());
-        BarDataSet set2 = new BarDataSet(entriesGroup2, graph.getSecondSubject());
-        BarDataSet set3 = new BarDataSet(entriesGroup3, graph.getThirdSubject());
-        BarDataSet set4 = new BarDataSet(entriesGroup4, graph.getFourthSubject());
-        BarDataSet set5 = new BarDataSet(entriesGroup5, graph.getFifthSubject());
-        set1.setColor(COLORS[0]);
-        set2.setColor(COLORS[1]);
-        set3.setColor(COLORS[2]);
-        set4.setColor(COLORS[3]);
-        set5.setColor(COLORS[4]);
 
-        BarData data = new BarData();
-        data.addDataSet(set1);
-        data.addDataSet(set2);
-        data.addDataSet(set3);
-        data.addDataSet(set4);
-        data.addDataSet(set5);
 
         XAxis xAxis = barChart.getXAxis();
         ArrayList<String> xLabels = new ArrayList<>(graph.getLabels());
@@ -274,13 +291,13 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 }
             }
         });
-        data.setBarWidth(0.1f); // set the width of each bar
+        barData.setBarWidth(0.1f); // set the width of each bar
         xAxis.setCenterAxisLabels(true);
         xAxis.setGranularityEnabled(true);
         xAxis.setAxisMinimum(0);
         barChart.getDescription().setEnabled(false);
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        barChart.setData(data);
+        barChart.setData(barData);
         barChart.groupBars(0, 0.4f, 0.02f);
         barChart.invalidate();
         LegendEntry[] legendEntries = barChart.getLegend().getEntries();
