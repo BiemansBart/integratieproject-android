@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,6 +30,7 @@ public class MainActivity extends Activity {
     ImageView imgViewUsername;
     @BindView(R.id.imgViewPassword)
     ImageView imgViewPassword;
+    RestClient client;
 
 
     @Override
@@ -47,19 +50,19 @@ public class MainActivity extends Activity {
 
     @OnClick(R.id.ButtonInlog)
     void StuurGegegevensDoor() {
-        RestClient client = new RestClient(this);
+        client = new RestClient(this);
         System.out.println(editTextUserName.getText().toString() + editTextPassword.getText().toString());
-        client.getUserId(editTextUserName.getText().toString(),editTextPassword.getText().toString());
+        client.getUserId(editTextUserName.getText().toString(), editTextPassword.getText().toString());
     }
-    public void LogGebruikerIn(String id){
-            if(id.equals("null")){
-                Toast.makeText(this, "Uw wachtwoord of password klopt niet", Toast.LENGTH_SHORT).show();
-            }else{
-                Intent intent = new Intent(MainActivity.this, GraphActivity.class);
-                intent.putExtra("userId",id);
-                startActivity(intent);
-            }
 
+    public void LogGebruikerIn(String id) {
+        if (id.equals("null")) {
+            Toast.makeText(this, "Uw wachtwoord of password klopt niet", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(MainActivity.this, GraphActivity.class);
+            intent.putExtra("userId", id);
+            startActivity(intent);
+        }
 
 
     }

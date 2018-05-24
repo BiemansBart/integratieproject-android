@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.OnClick;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
 import teamtwaalf.politiekebarometer.adapter.GraphAdapter;
@@ -29,11 +30,10 @@ public class GraphActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
         //butterknife aanroepen
-        Log.d("LOGKEY", "IETS LOGGEN PLS");
          restClient = new RestClient(this);
         try {
-            System.out.println("IN TRY");
             Intent intent = getIntent();
+            restClient.getUserAlerts(intent.getStringExtra("userId"));
             restClient.GetGrafieken(intent.getStringExtra("userId"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,9 +48,9 @@ public class GraphActivity extends Activity {
         lvGraphs.setAdapter(adapter);
     }
 
-    public void getUserGraphs(){
-
+    @OnClick(R.id.imageButton2)
+    public void ShowAlerts(){
+        
     }
-
 
 }

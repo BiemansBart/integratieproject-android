@@ -17,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import teamtwaalf.politiekebarometer.activity.GraphActivity;
 import teamtwaalf.politiekebarometer.activity.MainActivity;
+import teamtwaalf.politiekebarometer.model.AlertMessage;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 public class RestClient {
@@ -78,6 +79,39 @@ public class RestClient {
                 Toast.makeText(context, "Er is een fout opgetreden, probeer het later nog eens. Error boodschap : " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public List<AlertMessage> getUserAlerts(String id){
+        System.out.println("In de GetUserAlerts");
+        List<AlertMessage> messages = new ArrayList<>();
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        GraphApi api = retrofit.create(GraphApi.class);
+        // halt de dubbele quotes uit de url omdat die anders niet werkt.
+        String encodedData = id.replace("\"", "");
+        Call<List<AlertMessage>> call = api.getUserAlerts(encodedData);
+
+        call.enqueue(new Callback<List<AlertMessage>>() {
+            @Override
+            public void onResponse(Call<List<AlertMessage>> call, Response<List<AlertMessage>> response) {
+                if(response.isSuccessful()){
+                    System.out.println("OnResponse : " + response.body().size());
+                    messages.addAll(response.body());
+                }else{
+                    System.out.println("Groote : " + response.body().size() );
+                    Toast.makeText(context, "Er is iets mis gegaan bij het ophalen van alerts", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<AlertMessage>> call, Throwable t) {
+                System.out.println("error : " + t.getMessage() );
+
+                Toast.makeText(context, "Er is iets mis gegaan bij het ophalen van alerts. Error : " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        return messages;
     }
 
 
