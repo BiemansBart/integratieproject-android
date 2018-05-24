@@ -1,35 +1,23 @@
 package teamtwaalf.politiekebarometer.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
-<<<<<<< HEAD
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-=======
-import java.util.ArrayList;
-
 
 import java.io.IOException;
 
->>>>>>> 80c0ca6325ac981632cb23a6ec09e150012f88cb
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import teamtwaalf.politiekebarometer.GraphApi;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
+import teamtwaalf.politiekebarometer.adapter.GraphAdapter;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 public class GraphActivity extends Activity {
@@ -37,27 +25,40 @@ public class GraphActivity extends Activity {
     //annotatie boven views zetten --> rebuilden
     private ListView lvGraphs;
     private RestClient restClient;
-    private List<Graph> result;
+    private List<Graph> result = new ArrayList<>();
+    private ImageButton imbAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
         //butterknife aanroepen
-        lvGraphs = findViewById(R.id.lvGraphs);
-        restClient = new RestClient(this);
+        ButterKnife.bind(this);
+        imbAlert = findViewById(R.id.imbAlert);
+        imbAlert.setActivated(true);
+         restClient = new RestClient(this);
         try {
-            restClient.getResult();
+            Intent intent = getIntent();
+            restClient.getUserAlerts(intent.getStringExtra("userId"));
+            restClient.GetGrafieken(intent.getStringExtra("userId"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void printData(List<Graph> graphs) {
-        Log.d("LOGKEY","un de printData");
-        Log.d("LOGKEY",graphs.get(1).getSubject());
+    public void getGraphs(List<Graph> graphs) {
+        System.out.println("GRAPHLENGTH: " + graphs.size() );
+        lvGraphs = findViewById(R.id.lvGraphs);
+        GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(graphs));
+        lvGraphs.setAdapter(adapter);
     }
 
+    @OnClick(R.id.imbAlert)
+    public void ShowAlerts(){
+        System.out.println("show alerts");
+        Intent intent = new Intent(this, AlertActivity.class);
+        startActivity(intent);
+    }
 
 }

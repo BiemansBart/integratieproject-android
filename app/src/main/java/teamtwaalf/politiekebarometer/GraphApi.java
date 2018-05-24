@@ -4,7 +4,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
+import teamtwaalf.politiekebarometer.model.AlertMessage;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 /**
@@ -13,9 +14,11 @@ import teamtwaalf.politiekebarometer.model.Graph;
 
 public interface GraphApi {
 
-    String BASE_URL = "https://my-json-server.typicode.com/";
-    @GET("biemansbart/testdata/Graphs")
-    Call<List<Graph>> TestDataGrafieken();
-    @GET("/api/GraphApi{user}")
-    Call<List<Graph>> grafiekenPerUser(@Path("user") String user);
+    String BASE_URL = "http://10.134.216.25:8012/";
+    @GET("/api/GraphApi/getGraph")
+    Call<List<Graph>> grafiekenPerUser(@Query(value = "id", encoded = true) String id);
+    @GET("/api/UserApi/Login")
+    Call<String> getUserId(@Query("email") String email, @Query("password") String password);
+    @GET("/api/AlertApi/GetAlerts")
+    Call<List<AlertMessage>> getUserAlerts(@Query(value = "id", encoded = true) String id);
 }

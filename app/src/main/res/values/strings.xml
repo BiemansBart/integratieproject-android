@@ -3,4 +3,9 @@
     <string name="UserName">Email</string>
     <string name="Paswoord">Wachtwoord</string>
     <string name="LogIn">Log in</string>
+    <string name="TitlePlaceholder">grafiektitel</string>
+    <string name="aantalTweetsLabel">Aantal Tweets</string>
+    <string name="DatumLaatsteTweet">Laatste tweet :</string>
+    <string name="labelBeginDatumTweet">Eerste tweet :</string>
+    <string name="AlertMessage">Alert</string>
 </resources>

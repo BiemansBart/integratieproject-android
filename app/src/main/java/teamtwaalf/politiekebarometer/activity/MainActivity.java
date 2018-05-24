@@ -8,8 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
 
@@ -24,51 +30,39 @@ public class MainActivity extends Activity {
     ImageView imgViewUsername;
     @BindView(R.id.imgViewPassword)
     ImageView imgViewPassword;
+    RestClient client;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        logInButton = findViewById(R.id.ButtonInlog);
+        ButterKnife.bind(this);
 
         imgViewUsername = findViewById(R.id.imgViewUsername);
         imgViewUsername.setImageResource(R.drawable.user);
-        imgViewUsername.setPadding(10,10,10,10);
+        imgViewUsername.setPadding(10, 10, 10, 10);
 
         imgViewPassword = findViewById(R.id.imgViewPassword);
         imgViewPassword.setImageResource(R.drawable.password);
-        imgViewPassword.setPadding(10,10,10,10);
-
-        RestClient rc = new RestClient(this);
-        rc.InitialiseGraphList();
-
-        addEventHandlers();
+        imgViewPassword.setPadding(10, 10, 10, 10);
     }
 
-    private void addEventHandlers() {
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, GraphActivity.class);
-                startActivity(intent);
+    @OnClick(R.id.ButtonInlog)
+    void StuurGegegevensDoor() {
+        client = new RestClient(this);
+        System.out.println(editTextUserName.getText().toString() + editTextPassword.getText().toString());
+        client.getUserId(editTextUserName.getText().toString(), editTextPassword.getText().toString());
+    }
 
-              /*  RestClient client = new RestClient(MainActivity.this);
-                io.reactivex.Observable<String> observable = io.reactivex.Observable.create(subscriber -> {
-                    try {
-                        String result = client.getResult();
-                        Log.d("LOGKEY",result);
-                    } catch (IOException e) {
-                        subscriber.onError(e);
-                    }
-                });
-
-                observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> testTextView.setText(result),
-                exception -> Toast.makeText(MainActivity.this,exception.getMessage(),Toast.LENGTH_LONG).show());*/
-            }
-        });
-
-
+    public void LogGebruikerIn(String id) {
+        if (id.equals("null")) {
+            Toast.makeText(this, "Uw wachtwoord of password klopt niet", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(MainActivity.this, GraphActivity.class);
+            intent.putExtra("userId", id);
+            startActivity(intent);
+        }
     }
 
 }
