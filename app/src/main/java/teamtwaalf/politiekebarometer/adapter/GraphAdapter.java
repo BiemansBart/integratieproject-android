@@ -34,6 +34,8 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.model.Graph;
 import teamtwaalf.politiekebarometer.model.GraphType;
@@ -45,6 +47,9 @@ import teamtwaalf.politiekebarometer.model.GraphType;
 public class GraphAdapter extends ArrayAdapter<Graph> {
     public GraphAdapter(Context context, ArrayList<Graph> graphs) {
         super(context, -1, graphs);
+        for (int i = 0; i < graphs.size(); i++) {
+            System.out.println(graphs.get(i).toString());
+        }
     }
     private final int COLORS[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK};
     // 0 = Line,
@@ -52,113 +57,71 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
     // 2 = Bar
     // 3 = getal
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Graph graph = getItem(position);
+        System.out.println("Position: " + position);
         System.out.println("========================== GRAPHADAPTER GET VIEW ==========================");
         System.out.println("======= DATA GRAFIEK " + graph.getId() + "=======");
         System.out.println(graph.toString());
 
-       // if (convertView == null) {
+        //if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if(graph.getType() == 0) {
+            if (graph.getType() == 0) {
                 convertView = inflater.inflate(R.layout.graph_adapter_linegraph, parent, false);
                 drawLineGraph(convertView, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NULL");
                 return convertView;
             }
-            if(graph.getType() == 1){
+            if (graph.getType() == 1) {
                 convertView = inflater.inflate(R.layout.graph_adapter_piechart, parent, false);
                 drawPieChart(convertView, graph);
                 System.out.println("DRAW PIE : CONVERTVIEW NULL");
                 return convertView;
             }
-            if(graph.getType() == 2){
+            if (graph.getType() == 2) {
                 convertView = inflater.inflate(R.layout.graph_adapter_barchart, parent, false);
                 drawBarChart(convertView, graph);
                 System.out.println("DRAW BAR : CONVERTVIEW NULL");
                 return convertView;
             }
-        if(graph.getType() == 3){
-            convertView = inflater.inflate(R.layout.graph_adapter_number, parent, false);
-            drawNumber(convertView, graph);
-            System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
-            return convertView;
-        }
+            if (graph.getType() == 3) {
+                convertView = inflater.inflate(R.layout.graph_adapter_number, parent, false);
+                drawNumber(convertView, graph);
+                System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
+                return convertView;
+            }
+        return convertView;
 
 
-      /* } else {
+     /* } else {
             //Bevat nog een fout
             if(graph.getType() == 0) {
-                View lineChart = convertView.findViewById(R.id.lineChart);
-                drawLineGraph(lineChart, graph);
+               // View lineChart = convertView.findViewById(R.id.lineChart);
+                //drawLineGraph(lineChart, graph);
                 System.out.println("DRAW LINE : CONVERTVIEW NOT NULL");
                 return convertView;
             }
             if(graph.getType() == 1){
-                View pieChart = convertView.findViewById(R.id.pieChart);
-                drawPieChart(pieChart, graph);
+               // View pieChart = convertView.findViewById(R.id.pieChart);
+                //drawPieChart(pieChart, graph);
                 System.out.println("DRAW PIE : CONVERTVIEW NOT NULL");
                 return convertView;
             }
             if(graph.getType() == 2){
-                View barChart = convertView.findViewById(R.id.barChart);
-                drawBarChart(barChart, graph);
+                //View barChart = convertView.findViewById(R.id.barChart);
+                //drawBarChart(barChart, graph);
                 System.out.println("DRAW BAR : CONVERTVIEW NOT NULL");
                 return convertView;
             }
+            if(graph.getType() == 3){
+                //View number = convertView.findViewById(R.layout.graph_adapter_number);
+                //drawNumber(number, graph);
+                System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
+                return convertView;
+            }
         }*/
-        return convertView;
-    }
-
-
-    private List<Entry> createEntries(Graph graph, int dataCounter) {
-        List<Entry> entries = new ArrayList<Entry>();
-
-        switch (dataCounter) {
-            case 0:
-                for (int i = 0; i < graph.getLabels().size(); i++) {
-                    entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataFirstSubject().get(i))));
-                }
-                break;
-            case 1:
-                for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(!graph.getGraphDataSecondSubject().isEmpty()){
-                        entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataSecondSubject().get(i))));
-                    }else{
-                        entries.add(new Entry(-1, -1));
-                    }
-                }
-                break;
-            case 2:
-                for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(!graph.getGraphDataThirdSubject().isEmpty()){
-                        entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataThirdSubject().get(i))));
-                    }else{
-                        entries.add(new Entry(-1, -1));
-                    }
-                }
-                break;
-            case 3:
-                for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(!graph.getGraphDataFourthSubject().isEmpty()){
-                        entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataFourthSubject().get(i))));
-                    }else{
-                        entries.add(new Entry(-1, -1));
-                    }
-                }
-                break;
-            case 4:
-                for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(!graph.getGraphDataFifthSubject().isEmpty()){
-                        entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataFifthSubject().get(i))));
-                    }else{
-                        entries.add(new Entry(-1, -1));
-                    }
-                }
-                break;
-        }
-        return entries;
     }
 
     private void drawLineGraph(View convertView, Graph graph){
@@ -166,36 +129,70 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         TextView title = convertView.findViewById(R.id.titleLineChart);
         title.setText(graph.getTitle());
         LineData lineChartData = new LineData();
-        LineDataSet dataSet = null;
+        LineDataSet dataSetSubject1 = null;
+        LineDataSet dataSetSubject2 = null;
+        LineDataSet dataSetSubject3 = null;
+        LineDataSet dataSetSubject4 = null;
+        LineDataSet dataSetSubject5 = null;
         for (int i = 0; i < 5; i++) {
+            List<Entry> entries = new ArrayList<>();
             switch (i) {
                 case 0:
-                    dataSet = new LineDataSet(createEntries(graph, 0), graph.getSubject());
-                    dataSet.setColor(COLORS[i]);
-                    dataSet.setCircleColor(COLORS[i]);
+                    if(!graph.getGraphDataFirstSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataFirstSubject().size(); j++) {
+                            entries.add(new Entry(j, Integer.parseInt(graph.getGraphDataFirstSubject().get(j))));
+                        }
+                        dataSetSubject1 = new LineDataSet(entries, graph.getSubject());
+                        dataSetSubject1.setColor(COLORS[i]);
+                        dataSetSubject1.setCircleColor(COLORS[i]);
+                    }
+                    lineChartData.addDataSet(dataSetSubject1);
                     break;
                 case 1:
-                    dataSet = new LineDataSet(createEntries(graph, 1), graph.getSecondSubject());
-                    dataSet.setColor(COLORS[i]);
-                    dataSet.setCircleColor(COLORS[i]);
+                    if(!graph.getGraphDataSecondSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataSecondSubject().size(); j++) {
+                            entries.add(new Entry(j, Integer.parseInt(graph.getGraphDataSecondSubject().get(j))));
+                        }
+                        dataSetSubject2 = new LineDataSet(entries, graph.getSecondSubject());
+                        dataSetSubject2.setColor(COLORS[i]);
+                        dataSetSubject2.setCircleColor(COLORS[i]);
+                    }
+                    lineChartData.addDataSet(dataSetSubject2);
                     break;
                 case 2:
-                    dataSet = new LineDataSet(createEntries(graph, 2), graph.getThirdSubject());
-                    dataSet.setColor(COLORS[i]);
-                    dataSet.setCircleColor(COLORS[i]);
+                    if(!graph.getGraphDataThirdSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataThirdSubject().size(); j++) {
+                            entries.add(new Entry(j, Integer.parseInt(graph.getGraphDataThirdSubject().get(j))));
+                        }
+                        dataSetSubject3 = new LineDataSet(entries, graph.getThirdSubject());
+                        dataSetSubject3.setColor(COLORS[i]);
+                        dataSetSubject3.setCircleColor(COLORS[i]);
+                    }
+                    lineChartData.addDataSet(dataSetSubject3);
                     break;
                 case 3:
-                    dataSet = new LineDataSet(createEntries(graph, 3), graph.getFourthSubject());
-                    dataSet.setColor(COLORS[i]);
-                    dataSet.setCircleColor(COLORS[i]);
+                    if(!graph.getGraphDataFourthSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataFourthSubject().size(); j++) {
+                            entries.add(new Entry(j, Integer.parseInt(graph.getGraphDataFourthSubject().get(j))));
+                        }
+                        dataSetSubject4 = new LineDataSet(entries, graph.getFourthSubject());
+                        dataSetSubject4.setColor(COLORS[i]);
+                        dataSetSubject4.setCircleColor(COLORS[i]);
+                    }
+                    lineChartData.addDataSet(dataSetSubject4);
                     break;
                 case 4:
-                    dataSet = new LineDataSet(createEntries(graph, 4), graph.getFifthSubject());
-                    dataSet.setColor(COLORS[i]);
-                    dataSet.setCircleColor(COLORS[i]);
+                    if(!graph.getGraphDataFifthSubject().isEmpty()){
+                        for (int j = 0; j < graph.getGraphDataFifthSubject().size(); j++) {
+                            entries.add(new Entry(j, Integer.parseInt(graph.getGraphDataFifthSubject().get(j))));
+                        }
+                        dataSetSubject5 = new LineDataSet(entries, graph.getFifthSubject());
+                        dataSetSubject5.setColor(COLORS[i]);
+                        dataSetSubject5.setCircleColor(COLORS[i]);
+                    }
+                    lineChartData.addDataSet(dataSetSubject5);
                     break;
             }
-                lineChartData.addDataSet(dataSet);
         }
 
         lineChart.setData(lineChartData);
@@ -220,6 +217,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
         for(int i = 0; i < graph.getLabels().size(); i++) {
             entriesGroup1.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFirstSubject().get(i))));
+
             if(!graph.getGraphDataSecondSubject().isEmpty()){
                 entriesGroup2.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataSecondSubject().get(i))));
             }else{
