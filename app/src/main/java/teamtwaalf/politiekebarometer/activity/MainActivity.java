@@ -63,9 +63,6 @@ public class MainActivity extends Activity {
             intent.putExtra("userId", id);
             startActivity(intent);
         }
-
-
     }
-
 
 }

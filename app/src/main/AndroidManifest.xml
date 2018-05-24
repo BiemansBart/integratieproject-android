@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GraphActivity"></activity>
+        <activity android:name=".activity.GraphActivity" />
+        <activity android:name=".activity.AlertActivity"></activity>
     </application>
 
 </manifest>
