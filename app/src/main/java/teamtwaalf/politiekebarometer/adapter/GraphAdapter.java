@@ -66,7 +66,6 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         System.out.println("======= DATA GRAFIEK " + graph.getId() + "=======");
         System.out.println(graph.toString());
 
-        //if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (graph.getType() == 0) {
                 convertView = inflater.inflate(R.layout.graph_adapter_linegraph, parent, false);
@@ -92,38 +91,9 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
                 return convertView;
             }
+            
         return convertView;
-
-
-     /* } else {
-            //Bevat nog een fout
-            if(graph.getType() == 0) {
-               // View lineChart = convertView.findViewById(R.id.lineChart);
-                //drawLineGraph(lineChart, graph);
-                System.out.println("DRAW LINE : CONVERTVIEW NOT NULL");
-                return convertView;
-            }
-            if(graph.getType() == 1){
-               // View pieChart = convertView.findViewById(R.id.pieChart);
-                //drawPieChart(pieChart, graph);
-                System.out.println("DRAW PIE : CONVERTVIEW NOT NULL");
-                return convertView;
-            }
-            if(graph.getType() == 2){
-                //View barChart = convertView.findViewById(R.id.barChart);
-                //drawBarChart(barChart, graph);
-                System.out.println("DRAW BAR : CONVERTVIEW NOT NULL");
-                return convertView;
-            }
-            if(graph.getType() == 3){
-                //View number = convertView.findViewById(R.layout.graph_adapter_number);
-                //drawNumber(number, graph);
-                System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
-                return convertView;
-            }
-        }*/
     }
-
     private void drawLineGraph(View convertView, Graph graph){
         LineChart lineChart = convertView.findViewById(R.id.lineChart);
         TextView title = convertView.findViewById(R.id.titleLineChart);
