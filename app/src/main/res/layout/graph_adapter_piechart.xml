@@ -21,6 +21,8 @@
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@color/graphTitles"
+        android:textColor="@color/graphTitleText"
         android:gravity="center_vertical"
         android:text="@string/TitlePlaceholder"
         android:textAlignment="center"

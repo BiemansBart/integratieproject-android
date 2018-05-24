@@ -47,7 +47,10 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         super(context, -1, graphs);
     }
     private final int COLORS[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK};
-    //0 = Line, 1 = Pie, 2 = Bar
+    // 0 = Line,
+    // 1 = Pie
+    // 2 = Bar
+    // 3 = getal
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -76,6 +79,12 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 System.out.println("DRAW BAR : CONVERTVIEW NULL");
                 return convertView;
             }
+        if(graph.getType() == 3){
+            convertView = inflater.inflate(R.layout.graph_adapter_number, parent, false);
+            drawNumber(convertView, graph);
+            System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
+            return convertView;
+        }
 
 
       /* } else {
@@ -114,7 +123,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 break;
             case 1:
                 for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(graph.getGraphDataSecondSubject() != null){
+                    if(!graph.getGraphDataSecondSubject().isEmpty()){
                         entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataSecondSubject().get(i))));
                     }else{
                         entries.add(new Entry(-1, -1));
@@ -123,7 +132,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 break;
             case 2:
                 for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(graph.getGraphDataThirdSubject() != null){
+                    if(!graph.getGraphDataThirdSubject().isEmpty()){
                         entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataThirdSubject().get(i))));
                     }else{
                         entries.add(new Entry(-1, -1));
@@ -132,7 +141,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 break;
             case 3:
                 for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(graph.getGraphDataFourthSubject() != null){
+                    if(!graph.getGraphDataFourthSubject().isEmpty()){
                         entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataFourthSubject().get(i))));
                     }else{
                         entries.add(new Entry(-1, -1));
@@ -141,7 +150,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 break;
             case 4:
                 for (int i = 0; i < graph.getLabels().size(); i++) {
-                    if(graph.getGraphDataFifthSubject() != null){
+                    if(!graph.getGraphDataFifthSubject().isEmpty()){
                         entries.add(new Entry(i, Integer.parseInt(graph.getGraphDataFifthSubject().get(i))));
                     }else{
                         entries.add(new Entry(-1, -1));
@@ -211,22 +220,22 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
 
         for(int i = 0; i < graph.getLabels().size(); i++) {
             entriesGroup1.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFirstSubject().get(i))));
-            if(graph.getGraphDataSecondSubject() != null){
+            if(!graph.getGraphDataSecondSubject().isEmpty()){
                 entriesGroup2.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataSecondSubject().get(i))));
             }else{
                 entriesGroup2.add(new BarEntry(i,null));
             }
-            if(graph.getGraphDataThirdSubject() != null){
+            if(!graph.getGraphDataThirdSubject().isEmpty()){
                 entriesGroup3.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataThirdSubject().get(i))));
             }else{
                 entriesGroup3.add(new BarEntry(i,null));
             }
-            if(graph.getGraphDataFourthSubject() != null){
+            if(!graph.getGraphDataFourthSubject().isEmpty()){
                 entriesGroup4.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFourthSubject().get(i))));
             }else{
                 entriesGroup4.add(new BarEntry(i,null));
             }
-            if(graph.getGraphDataFifthSubject() != null){
+            if(!graph.getGraphDataFifthSubject().isEmpty()){
                 entriesGroup5.add(new BarEntry(i,Integer.parseInt(graph.getGraphDataFifthSubject().get(i))));
             }else{
                 entriesGroup5.add(new BarEntry(i,null));
@@ -295,12 +304,8 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         for (int i = 0; i < graph.getLabels().size(); i++) {
             entries.add(new PieEntry(values.get(i), graph.getLabels().get(i)));
         }
-        //entries.add(new PieEntry(18.5f, "Green"));
-        //entries.add(new PieEntry(26.7f, "Yellow"));
-        //entries.add(new PieEntry(24.0f, "Red"));
-        //entries.add(new PieEntry(30.8f, "Blue"));
 
-        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieDataSet set = new PieDataSet(entries, "");
         set.setColors(COLORS);
         PieData data = new PieData(set);
         pieChart.setData(data);
@@ -309,6 +314,23 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
         pieChart.invalidate();
     }
 
+    private void drawNumber(View convertView, Graph graph){
+        TextView tvTitle = convertView.findViewById(R.id.titleNumber);
+        TextView tvStart = convertView.findViewById(R.id.numberStart);
+        TextView tvEnd = convertView.findViewById(R.id.numberEnd);
+        TextView tvCount = convertView.findViewById(R.id.numberCount);
+
+        tvTitle.setText(graph.getTitle());
+        tvStart.setText(graph.getLabels().get(0));
+        tvEnd.setText(graph.getLabels().get(graph.getLabels().size()-1));
+
+        int count = 0;
+        for (int i = 0; i < graph.getGraphDataFirstSubject().size(); i++) {
+            count = count + Integer.parseInt(graph.getGraphDataFirstSubject().get(i));
+        }
+        System.out.println("Count number: " + count);
+        tvCount.setText(String.valueOf(count));
+    }
 
 }
 
