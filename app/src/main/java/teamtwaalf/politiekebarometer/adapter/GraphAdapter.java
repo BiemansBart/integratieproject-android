@@ -91,7 +91,7 @@ public class GraphAdapter extends ArrayAdapter<Graph> {
                 System.out.println("DRAW NUMBER : CONVERTVIEW NULL");
                 return convertView;
             }
-            
+
         return convertView;
     }
     private void drawLineGraph(View convertView, Graph graph){
