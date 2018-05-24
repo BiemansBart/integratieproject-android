@@ -43,10 +43,6 @@ public class GraphActivity extends Activity {
 
     public void getGraphs(List<Graph> graphs) {
         System.out.println("GRAPHLENGTH: " + graphs.size() );
-
-        System.out.println("DIT WERKT DUS WEL! Grootte van result :" + result.size());
-
-        System.out.println("VLAK VOOR AANMAKEN: " + result.size());
         lvGraphs = findViewById(R.id.lvGraphs);
         GraphAdapter adapter = new GraphAdapter(this,new ArrayList<>(graphs));
         lvGraphs.setAdapter(adapter);
