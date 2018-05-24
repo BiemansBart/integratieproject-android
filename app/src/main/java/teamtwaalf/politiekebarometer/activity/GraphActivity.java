@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
@@ -20,6 +21,7 @@ import teamtwaalf.politiekebarometer.model.Graph;
 
 public class GraphActivity extends Activity {
     private Random random = new Random();
+
     //annotatie boven views zetten --> rebuilden
     private ListView lvGraphs;
     private RestClient restClient;
@@ -29,6 +31,7 @@ public class GraphActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
+        ButterKnife.bind(this);
         //butterknife aanroepen
          restClient = new RestClient(this);
         try {
@@ -50,7 +53,12 @@ public class GraphActivity extends Activity {
 
     @OnClick(R.id.imageButton2)
     public void ShowAlerts(){
-        
+        System.out.println("knop werkt!");
+    }
+    @OnClick(R.id.imageButtonLogOut)
+    public void LogOut(){
+        Intent intent = new Intent(GraphActivity.this,MainActivity.class);
+        startActivity(intent);
     }
 
 }
