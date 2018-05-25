@@ -18,6 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import teamtwaalf.politiekebarometer.activity.AlertActivity;
 import teamtwaalf.politiekebarometer.activity.GraphActivity;
 import teamtwaalf.politiekebarometer.activity.MainActivity;
 import teamtwaalf.politiekebarometer.model.AlertMessage;
@@ -40,6 +41,7 @@ public class RestClient {
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
+
         // halt de dubbele quotes uit de url omdat die anders niet werkt.
         String encodedData = userId.replace("\"", "");
         Call<List<Graph>> call = api.grafiekenPerUser(encodedData);
@@ -84,7 +86,7 @@ public class RestClient {
         });
     }
 
-    public List<AlertMessage> getUserAlerts(String id){
+    public void getUserAlerts(String id){
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
@@ -97,7 +99,7 @@ public class RestClient {
             public void onResponse(Call<List<AlertMessage>> call, Response<List<AlertMessage>> response) {
                 if(response.isSuccessful()){
                     System.out.println("OnResponse : " + response.body().size());
-                    ((GraphActivity)context).ShowAlerts(response.body());
+                    ((AlertActivity)context).showUserAlerts(response.body());
                 }else{
                     System.out.println("Groote : " + response.body().size() );
                     Toast.makeText(context, "Er is iets mis gegaan bij het ophalen van alerts", Toast.LENGTH_LONG).show();

@@ -60,7 +60,8 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "Uw wachtwoord of password klopt niet", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(MainActivity.this, GraphActivity.class);
-            intent.putExtra("userId", id);
+            System.out.println("id : " + id);
+            intent.putExtra("userId",id);
             startActivity(intent);
         }
     }
