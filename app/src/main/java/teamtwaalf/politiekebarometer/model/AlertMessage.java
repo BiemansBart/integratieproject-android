@@ -9,26 +9,18 @@ import java.time.LocalDate;
 
 public class AlertMessage{
     private String Message;
-    private LocalDate Date;
 
-    public AlertMessage(String message, LocalDate date) {
+
+    public AlertMessage(String message) {
         Message = message;
-        Date = date;
     }
 
     public String getMessage() {
         return Message;
     }
-
     public void setMessage(String message) {
         Message = message;
     }
 
-    public LocalDate getDate() {
-        return Date;
-    }
 
-    public void setDate(LocalDate date) {
-        Date = date;
-    }
 }

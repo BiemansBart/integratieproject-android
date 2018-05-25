@@ -3,6 +3,9 @@ package teamtwaalf.politiekebarometer;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
 import java.net.URLEncoder;
@@ -82,8 +85,6 @@ public class RestClient {
     }
 
     public List<AlertMessage> getUserAlerts(String id){
-        System.out.println("In de GetUserAlerts");
-        List<AlertMessage> messages = new ArrayList<>();
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(GraphApi.BASE_URL).addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         GraphApi api = retrofit.create(GraphApi.class);
@@ -96,7 +97,7 @@ public class RestClient {
             public void onResponse(Call<List<AlertMessage>> call, Response<List<AlertMessage>> response) {
                 if(response.isSuccessful()){
                     System.out.println("OnResponse : " + response.body().size());
-                    messages.addAll(response.body());
+                    ((GraphActivity)context).ShowAlerts(response.body());
                 }else{
                     System.out.println("Groote : " + response.body().size() );
                     Toast.makeText(context, "Er is iets mis gegaan bij het ophalen van alerts", Toast.LENGTH_LONG).show();
@@ -111,7 +112,6 @@ public class RestClient {
                 Toast.makeText(context, "Er is iets mis gegaan bij het ophalen van alerts. Error : " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        return messages;
     }
 
 

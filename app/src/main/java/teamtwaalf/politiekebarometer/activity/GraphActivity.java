@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import teamtwaalf.politiekebarometer.R;
 import teamtwaalf.politiekebarometer.RestClient;
 import teamtwaalf.politiekebarometer.adapter.GraphAdapter;
+import teamtwaalf.politiekebarometer.model.AlertMessage;
 import teamtwaalf.politiekebarometer.model.Graph;
 
 public class GraphActivity extends Activity {
@@ -36,6 +37,7 @@ public class GraphActivity extends Activity {
          restClient = new RestClient(this);
         try {
             Intent intent = getIntent();
+           //
             restClient.getUserAlerts(intent.getStringExtra("userId"));
             restClient.GetGrafieken(intent.getStringExtra("userId"));
         } catch (IOException e) {
@@ -51,8 +53,8 @@ public class GraphActivity extends Activity {
         lvGraphs.setAdapter(adapter);
     }
 
-    @OnClick(R.id.imageButton2)
-    public void ShowAlerts(){
+    @OnClick(R.id.imbAlert)
+    public void ShowAlerts(List<AlertMessage> alerts){
         System.out.println("knop werkt!");
     }
     @OnClick(R.id.imageButtonLogOut)
